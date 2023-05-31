@@ -65,12 +65,31 @@ module.exports.userGet = (req,res,next)=>{
     })
 }
 
+module.exports.userProfile = (req,res,next)=>{
+    const username = req.params.username;
+    UserModel.findOne({username})
+    .exec()
+    .then(result=>{
+        console.log(result)
+        res.json(result)
+    })
+}
+
 module.exports.userUpdate = (req,res,next)=>{
     const body = req.body
     UserModel.updateOne({name: "erfan"}, {name: body.name})
     .then(result=>{
         cconsole.log(result)
         res.json({message: "updated successfuly"})
+    })
+}
+
+module.exports.userAbout = (req,res,next)=>{
+    const body = req.body;
+    UserModel.updateOne({username: body.username}, {about: body.about})
+    .then(result=>{
+        console.log(result)
+        res.json({message: "userAbout updated successfuly"})
     })
 }
 
