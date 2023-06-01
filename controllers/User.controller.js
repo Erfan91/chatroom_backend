@@ -1,5 +1,6 @@
 const UserModel = require('../models/UserModel');
-
+const multer = require('multer');
+const path = require('path');
 module.exports.userPost = (req,res,next)=>{
     const body = req.body
     UserModel.findOne({username: body.username})
@@ -93,11 +94,46 @@ module.exports.userAbout = (req,res,next)=>{
     })
 }
 
+module.exports.userImage = (req,res,next)=>{
+    const body = req.body
+    UserModel.updateOne({username:username}, {image: body.url})
+    .then(result=>{
+        console.log(result)
+        res.json({message: "user image registred"})
+    })
+}
+
 module.exports.userDelete = (req,res,next)=>{
     const body = req.body
     UserModel.deleteOne({name:body.name})
     .then(result=>{
         console.log(result)
         res.json({message: "user deleted successfuly"})
+    })
+}
+
+let imageName = "";
+const storage = multer.diskStorage({
+    destination: path.join("./images"),
+    filename:function (req,file,cb){
+        imageName = Date.now() + path.extname(file.originalname);
+        cb(null,imageName)
+    }
+})
+
+const upload = multer({
+    storage:storage,
+    limits:{fileSize:3000000},
+}).single('myImage')
+
+module.exports.imgUpload = (req,res)=>{
+    upload(req,res,(err)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log(req.body)
+            return res.status(201)
+            .json({url:"http://localhost:3001/images/" + imageName})
+        }
     })
 }
