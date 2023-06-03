@@ -96,7 +96,7 @@ module.exports.userAbout = (req,res,next)=>{
 
 module.exports.userImage = (req,res,next)=>{
     const body = req.body
-    UserModel.updateOne({username:username}, {image: body.url})
+    UserModel.updateOne({username:body.username}, {image: body.url})
     .then(result=>{
         console.log(result)
         res.json({message: "user image registred"})
