@@ -46,7 +46,7 @@ module.exports.userLogin = (req,res,next)=>{
            .exec()
            .then(response=>{
             console.log(Boolean(response), "BOOLean response")
-            response ? res.json({exists: true}): res.json({exists: false})
+            response ? res.json({exists: true, _id: response._id}): res.json({exists: false})
             
            })
         }

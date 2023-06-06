@@ -1,1 +1,8 @@
-const router = require("express").config();
+const router = require("express").Router();
+const MessageController = require('../controllers/Message.controller');
+router.post('/', MessageController.msgPost);
+router.get("/", MessageController.msgGet);
+router.put("/", MessageController.msgUpdate);
+router.delete("/", MessageController.msgDelete);
+
+module.exports = router
