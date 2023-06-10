@@ -5,7 +5,12 @@ const UserSchema = new mongoose.Schema({
     email: String, 
     username: String, 
     image: String,
-    about: String
+    about: String,
+    usersMsg: [{
+        type: mongoose.Types.ObjectId,
+        ref: "User"
+    }]
+    
 },
 {
     timestamps: true
