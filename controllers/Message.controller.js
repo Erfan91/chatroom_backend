@@ -28,6 +28,19 @@ module.exports.msgPost = (req,res,next)=>{
                    }).then(result=>{
                     console.log(result)
                     res.json(result)
+                    UserModel.find({usersMsg:{$in: body.sender}, _id: body.receiver})
+                    .exec()
+                    .then(result=>{
+                        if(result.length){
+                            console.log(result,'user exits')
+                        }
+                        if(!result.length){
+                            UserModel.updateOne({_id: body.receiver}, {$push: {usersMsg: body.sender}})
+                            .then(result=>{
+                                console.log(result, "user updated")
+                            })
+                        }
+                    })
                    })
             })
 

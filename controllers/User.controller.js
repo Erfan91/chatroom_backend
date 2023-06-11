@@ -41,7 +41,6 @@ module.exports.userLogin = (req,res,next)=>{
     .exec()
     .then(result=>{
         if(result){
-        //    res.json({email: true})
            UserModel.findOne({username: body.username})
            .exec()
            .then(response=>{
@@ -62,6 +61,16 @@ module.exports.userGet = (req,res,next)=>{
     .exec()
     .then(result=>{
         console.log(result)
+        res.json(result)
+    })
+}
+
+module.exports.userGetMsg = (req,res,next)=>{
+    const id = req.params.id
+    UserModel.findById(id)
+    .populate("usersMsg").sort({createdAt: -1})
+    .exec()
+    .then(result=>{
         res.json(result)
     })
 }
