@@ -58,17 +58,28 @@ module.exports.msgGet = (req,res,next)=>{
 
 }
 
-module.exports.msgGetById = (req,res,next)=>{
+module.exports.getMsg = (req,res,next)=>{
     const id = req.params.id
-    MessageModel.find({sender: id}||{receiver: id})
+    const ids = req.params.ids
+    MessageModel.find({sender: id, receiver: ids}&&{receiver: id, sender:ids})
     .exec()
-    .populate("sender")
-    .populate("receiver")
     .then(result=>{
-        console.log(result)
+        console.log(result, "messages RResult")
         res.json(result)
     })
 }
+
+// module.exports.msgGetById = (req,res,next)=>{
+//     const id = req.params.id
+//     MessageModel.find({sender: id}||{receiver: id})
+//     .exec()
+//     .populate("sender")
+//     .populate("receiver")
+//     .then(result=>{
+//         console.log(result)
+//         res.json(result)
+//     })
+// }
 
 module.exports.msgUpdate = (req,res,next) =>{
     const body = req.body
