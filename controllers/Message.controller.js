@@ -61,7 +61,14 @@ module.exports.msgGet = (req,res,next)=>{
 module.exports.getMsg = (req,res,next)=>{
     const id = req.params.id
     const ids = req.params.ids
-    MessageModel.find({sender: id, receiver: ids}&&{receiver: id, sender:ids})
+    MessageModel.find({
+        $and:[
+        {$or:[{sender: id, receiver: ids}, {sender:ids,receiver: id}]},
+        ]
+    })
+    .populate('sender')
+    .populate('receiver')
+    .sort({createdAt: -1})
     .exec()
     .then(result=>{
         console.log(result, "messages RResult")
@@ -69,17 +76,7 @@ module.exports.getMsg = (req,res,next)=>{
     })
 }
 
-// module.exports.msgGetById = (req,res,next)=>{
-//     const id = req.params.id
-//     MessageModel.find({sender: id}||{receiver: id})
-//     .exec()
-//     .populate("sender")
-//     .populate("receiver")
-//     .then(result=>{
-//         console.log(result)
-//         res.json(result)
-//     })
-// }
+
 
 module.exports.msgUpdate = (req,res,next) =>{
     const body = req.body
