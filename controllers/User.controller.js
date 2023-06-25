@@ -68,7 +68,21 @@ module.exports.userGet = (req,res,next)=>{
 module.exports.userGetMsg = (req,res,next)=>{
     const id = req.params.id
     UserModel.findById(id)
-    .populate("usersMsg").sort({createdAt: -1})
+    .sort({createdAt: -1})
+    .populate({
+        path: "usersMsg",
+        populate:{
+            path: "sender",
+            model: "User"
+        },
+    })
+    .populate({
+        path: "usersMsg",
+        populate:{
+            path: "receiver",
+            model: "User"
+        },
+    })
     .exec()
     .then(result=>{
         res.json(result)

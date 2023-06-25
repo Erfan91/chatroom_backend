@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     about: String,
     usersMsg: [{
         type: mongoose.Types.ObjectId,
-        ref: "User"
+        ref: "UserMessage",
     }]
     
 },

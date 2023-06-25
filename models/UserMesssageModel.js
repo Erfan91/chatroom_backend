@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const MessageSchema = new mongoose.Schema({
+const UserMessageSchema = new mongoose.Schema({
     sender: {
         type: mongoose.Types.ObjectId,
         ref: "User"
@@ -9,13 +9,11 @@ const MessageSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: "User"
     },
-    content:String,
     seen: Boolean
-
 },
-    {
-        timestamps: true
-    })
+{
+    timestamps: true
+})
 
-const MessageModel = new mongoose.model('Message', MessageSchema);
-module.exports = MessageModel;
+const UserMessageModel = new mongoose.model('UserMessage', UserMessageSchema);
+module.exports = UserMessageModel;
